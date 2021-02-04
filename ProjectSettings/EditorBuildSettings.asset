@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/marshmallow_roasting.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/marshmallow_roasting_skybox.unity
+    guid: a5df9867bdacd604dbe1d73079151448
   - enabled: 1
     path: Assets/Scenes/achievements.unity
     guid: d51a86e89f0d43a42a40425ba8c9b5af

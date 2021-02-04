@@ -12,11 +12,12 @@ public class marshmallow : MonoBehaviour
     private float n, s, e, w = 0f;
     public GameObject bottomInd;
     public GameObject topInd;
+    public static float volumeMod;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        volumeMod = 0;
     }
 
     // Update is called once per frame
@@ -67,6 +68,16 @@ public class marshmallow : MonoBehaviour
                 green = 0f;
 
             gameObject.GetComponent<MeshRenderer>().material.SetColor("Color_1", new Color(red, green, blue, 1f));
+        }
+
+        if (n < 8f)
+        {
+            volumeMod = n;
+        }
+
+        else
+        {
+            volumeMod = 8;
         }
         
     }
