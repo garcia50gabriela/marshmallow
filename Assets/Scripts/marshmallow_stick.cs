@@ -57,7 +57,7 @@ public class marshmallow_stick : MonoBehaviour
            // nothing
         }
         VolumeModifier = (marshmallow.volumeMod / 8);
-        Debug.Log("Volume Modifier = " + VolumeModifier);
+        //Debug.Log("Volume Modifier = " + VolumeModifier);
         nRoastSFX.volume = VolumeModifier;
     }
         
