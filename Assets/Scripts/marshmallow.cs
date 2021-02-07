@@ -129,21 +129,25 @@ public class marshmallow : MonoBehaviour
     void checkForAchievements(float n, float s) 
     {
         UnityEngine.UI.Text achievementsText = Achievements.GetComponent<UnityEngine.UI.Text>();
+        // dark side
         if (n < 1 && s > 10 || s < 2 && n > 10) 
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[0].Name);
             game_data.AchievementDict[0].Earned = true;
         }
-        if (n < 9 && s < 9 || s > 7 && n > 7)
+        // good and golden
+        if (n < 9 && s < 9 && s > 7 && n > 7)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[1].Name);
             game_data.AchievementDict[1].Earned = true;
         }
+        // unroasted
         if (n < 2 && s < 2)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[2].Name);
             game_data.AchievementDict[2].Earned = true;
         }
+        // charred
         if (n > 10 && s > 10)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[3].Name);

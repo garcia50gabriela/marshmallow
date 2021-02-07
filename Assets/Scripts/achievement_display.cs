@@ -6,16 +6,29 @@ using UnityEngine;
 public class achievement_display : MonoBehaviour
 {
 
-    public GameObject achievement_text;
+    public GameObject golden_badge;
+    public GameObject raw_badge;
+    public GameObject darkside_badge;
+    public GameObject charred_badge;
+    private static Dictionary<string, GameObject> badge_dict;
     // Start is called before the first frame update
     void Start()
     {
-        string text = "Badge \t\t\t Earned?\n\n";
+        badge_dict = new Dictionary<string, GameObject>() {
+        {"Dark Side", darkside_badge},
+        {"Good & Golden", golden_badge},
+        {"UnRoasted", raw_badge},
+        {"Completely Charred", charred_badge}
+        };
+
         foreach (KeyValuePair<int, game_data.Achievement> a in game_data.AchievementDict)
         {
-            text += a.Value.Name + ":\t\t\t" + a.Value.Earned + "\n";
+            if (a.Value.Earned) 
+            {
+                var badge = badge_dict[a.Value.Name];
+                badge.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, 1f);
+            }
         }
-        achievement_text.GetComponent<UnityEngine.UI.Text>().text = text;
 
     }
 
