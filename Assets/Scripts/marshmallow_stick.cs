@@ -8,6 +8,7 @@ public class marshmallow_stick : MonoBehaviour
     public Vector3 targetPos;
     public Vector3 ogPos;
     public Vector3 clickPos;
+    public Vector3 relPos;
     public bool isMoving;
     public GameObject fire;
     const int MOUSE = 0;
@@ -22,6 +23,7 @@ public class marshmallow_stick : MonoBehaviour
         ogPos = transform.position;
         zpos = transform.position.z;
         clickPos = Input.mousePosition;
+        relPos = Input.mousePosition;
         isMoving = false;
         nRoastSFX = GetComponent<AudioSource>();
         nRoastSFX.Play(0);
@@ -40,7 +42,7 @@ public class marshmallow_stick : MonoBehaviour
         }
         else
         {
-            //SetOriginalPosition();
+            SetOriginalPosition();
              nRoastSFX.Pause();
         }
         if (isMoving)
@@ -50,7 +52,7 @@ public class marshmallow_stick : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             clickPos = Input.mousePosition;
-             Debug.Log("Left click detected at " + clickPos.x + " , " + clickPos.y);
+             Debug.Log("Left click detected at " + clickPos.x + " , " + clickPos.y + " , " + clickPos.z );
         }
         else 
         {
@@ -63,6 +65,8 @@ public class marshmallow_stick : MonoBehaviour
         
     void SetTargetPosition()
     {
+        relPos = Input.mousePosition - clickPos;
+        //Debug.Log("relative " + relPos.x + " , " + relPos.y);
         Plane plane = new Plane(Vector3.forward, transform.position);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         float point = 0f;
