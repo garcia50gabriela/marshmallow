@@ -38,12 +38,12 @@ public class marshmallow_stick : MonoBehaviour
         if (Input.GetMouseButton(MOUSE))
         {
             SetTargetPosition();
-             nRoastSFX.UnPause();
+            nRoastSFX.UnPause();
         }
         else
         {
             SetOriginalPosition();
-             nRoastSFX.Pause();
+            nRoastSFX.Pause();
         }
         if (isMoving)
         {
@@ -52,7 +52,7 @@ public class marshmallow_stick : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             clickPos = Input.mousePosition;
-             Debug.Log("Left click detected at " + clickPos.x + " , " + clickPos.y + " , " + clickPos.z );
+             //Debug.Log("Left click detected at " + clickPos.x + " , " + clickPos.y + " , " + clickPos.z );
         }
         else 
         {
