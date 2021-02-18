@@ -67,8 +67,12 @@ public class marshmallow_stick : MonoBehaviour
     void SetTargetPosition()
     {
         adjPos = new Vector3(600,50,0);
+        // This position adjustment is based on a 1200x600 resolution. 
+        // If we want to support multiple resolutions this would need actual math based on screen size.
+        // X would be Screen width / 2. Y would be screen height / 12
+
         relPos = Input.mousePosition - clickPos + adjPos;
-        Debug.Log("relative " + relPos.x + " , " + relPos.y);
+        //Debug.Log("relative " + relPos.x + " , " + relPos.y);
         Plane plane = new Plane(Vector3.forward, transform.position);
         Ray ray = Camera.main.ScreenPointToRay(relPos);
         float point = 0f;

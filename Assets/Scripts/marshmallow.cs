@@ -21,6 +21,7 @@ public class marshmallow : MonoBehaviour
     private int fireCounterPerMallow = 0;
     private bool isOnFire;
     public GameObject marshmallowFire;
+    public bool isNewBadge;
 
     // Start is called before the first frame update
     void Start()
@@ -196,55 +197,71 @@ public class marshmallow : MonoBehaviour
     void checkForAchievements(float n, float s) 
     {
         UnityEngine.UI.Text achievementsText = Achievements.GetComponent<UnityEngine.UI.Text>();
+
+        //Debug.Log(game_data.AchievementDict[0].Name + " is " + game_data.AchievementDict[0].Earned);
+        isNewBadge = false;
         // dark side
         if ((n < 1 && s > 10 || s < 2 && n > 10) && !game_data.AchievementDict[0].Earned) 
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[0].Name);
             game_data.AchievementDict[0].Earned = true;
+            isNewBadge = true;
         }
         // good and golden
         else if (n < 9 && s < 9 && s > 7 && n > 7 && !game_data.AchievementDict[1].Earned)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[1].Name);
             game_data.AchievementDict[1].Earned = true;
+            isNewBadge = true;
         }
         // unroasted
         else if (n < 2 && s < 2 && !game_data.AchievementDict[2].Earned)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[2].Name);
             game_data.AchievementDict[2].Earned = true;
+            isNewBadge = true;
         }
         // charred
         else if (n > 10 && s > 10 && !game_data.AchievementDict[3].Earned)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[3].Name);
             game_data.AchievementDict[3].Earned = true;
+            isNewBadge = true;
         }
         // 6666
         else if (Mathf.Round(n * 10f) == 66 && Mathf.Round(s * 10f) == 66 && !game_data.AchievementDict[4].Earned)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[4].Name);
             game_data.AchievementDict[4].Earned = true;
+            isNewBadge = true;
         }
         // Rapid Roast
         else if (timePassedPerMallow <= 25f && n < 9 && s < 9 && s > 7 && n > 7 && !game_data.AchievementDict[5].Earned && game_data.AchievementDict[1].Earned)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[5].Name);
             game_data.AchievementDict[5].Earned = true;
+            isNewBadge = true;
         }
         // one flame
-        else if (fireCounterPerMallow == 1)
+        else if (fireCounterPerMallow == 1 && !game_data.AchievementDict[6].Earned)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[6].Name);
             game_data.AchievementDict[6].Earned = true;
+            isNewBadge = true;
         }
         // two flame
-        else if (fireCounterPerMallow >= 2)
+        else if (fireCounterPerMallow >= 2 && !game_data.AchievementDict[7].Earned)
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[7].Name);
             game_data.AchievementDict[7].Earned = true;
+            isNewBadge = true;
         }
-        StartCoroutine(FadeTextToZeroAlpha(3f, achievementsText));
+        // we need an if statement here!
+        if (isNewBadge == true)
+        {
+            StartCoroutine(FadeTextToZeroAlpha(3f, achievementsText));
+        }
+        
     }
 
     public IEnumerator FadeTextToZeroAlpha(float t, UnityEngine.UI.Text i)
