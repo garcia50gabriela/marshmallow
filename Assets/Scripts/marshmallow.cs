@@ -188,6 +188,8 @@ public class marshmallow : MonoBehaviour
         bottomBar.GetComponent<Image>().color = white;
         topMarshmallow.GetComponent<Image>().color = white;
         bottomMarshmallow.GetComponent<Image>().color = white;
+        isOnFire = false;
+        marshmallowFire.SetActive(false);
         timePassedPerMallow = 0.0f;
         fireCounterPerMallow = 0;
     }

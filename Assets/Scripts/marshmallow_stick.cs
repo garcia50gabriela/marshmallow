@@ -9,6 +9,7 @@ public class marshmallow_stick : MonoBehaviour
     public Vector3 ogPos;
     public Vector3 clickPos;
     public Vector3 relPos;
+    public Vector3 adjPos;
     public bool isMoving;
     public GameObject fire;
     const int MOUSE = 0;
@@ -65,10 +66,11 @@ public class marshmallow_stick : MonoBehaviour
         
     void SetTargetPosition()
     {
-        relPos = Input.mousePosition - clickPos;
-        //Debug.Log("relative " + relPos.x + " , " + relPos.y);
+        adjPos = new Vector3(600,50,0);
+        relPos = Input.mousePosition - clickPos + adjPos;
+        Debug.Log("relative " + relPos.x + " , " + relPos.y);
         Plane plane = new Plane(Vector3.forward, transform.position);
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(relPos);
         float point = 0f;
 
         if (plane.Raycast(ray, out point)) 
