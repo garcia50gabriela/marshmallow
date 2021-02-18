@@ -12,7 +12,6 @@ public class marshmallow : MonoBehaviour
     private float n, s = 0f;
     public GameObject bottomInd;
     public GameObject topInd;
-    public static float volumeMod;
     public GameObject topBar;
     public GameObject bottomBar;
     public GameObject topMarshmallow;
@@ -23,10 +22,28 @@ public class marshmallow : MonoBehaviour
     public GameObject marshmallowFire;
     public bool isNewBadge;
 
+//SFX
+    public static float nVolMult;
+    public float nVolMod;
+    public static float sVolMult;
+    public float sVolMod;
+    public AudioSource nRoastSFX;
+    public AudioSource sRoastSFX;
+
     // Start is called before the first frame update
     void Start()
     {
-        volumeMod = 0;
+        nVolMult = 0;
+        sVolMult = 0;
+        nVolMod = 0f;
+        sVolMod = 0f;
+        nRoastSFX = bottomInd.GetComponent<AudioSource>();
+        sRoastSFX = topInd.GetComponent<AudioSource>();
+        nRoastSFX.Play(0);
+        sRoastSFX.Play(0);
+        
+        //nRoastSFX.Pause();
+        
     }
 
     // Update is called once per frame
@@ -36,15 +53,39 @@ public class marshmallow : MonoBehaviour
         checkAndUpdateFlame();
         timePassedPerMallow += Time.deltaTime;
 
-        if (n < 8f)
+        //if (Input.GetMouseButton(MOUSE))
+        //{
+        //    nRoastSFX.UnPause();
+        //}
+        //else
+        //{
+        //    nRoastSFX.Pause();
+        //}
+
+        if (n < 10f)
         {
-            volumeMod = n;
+            nVolMult = n;
         }
 
         else
         {
-            volumeMod = 8;
+            nVolMult = 10;
         }
+
+        if (s < 10f)
+        {
+            sVolMult = s;
+        }
+
+        else
+        {
+            sVolMult = 10;
+        }
+
+        nVolMod = (nVolMult / 20);
+        nRoastSFX.volume = nVolMod;
+        sVolMod = (sVolMult / 20);
+        sRoastSFX.volume = sVolMod;
         
     }
     void updateVisualIndicators() 

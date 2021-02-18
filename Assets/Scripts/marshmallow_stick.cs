@@ -14,8 +14,9 @@ public class marshmallow_stick : MonoBehaviour
     public GameObject fire;
     const int MOUSE = 0;
     private float zpos;
-    private static float VolumeModifier;
-    AudioSource nRoastSFX;
+    //private static float VolumeModifier;
+    //AudioSource nRoastSFX;
+
     // Use this for initialization1
     void Start()
     {
@@ -26,10 +27,10 @@ public class marshmallow_stick : MonoBehaviour
         clickPos = Input.mousePosition;
         relPos = Input.mousePosition;
         isMoving = false;
-        nRoastSFX = GetComponent<AudioSource>();
-        nRoastSFX.Play(0);
-        nRoastSFX.Pause();
-        VolumeModifier = 0f;
+        //nRoastSFX = GetComponent<AudioSource>();
+        //nRoastSFX.Play(0);
+        //nRoastSFX.Pause();
+        //VolumeModifier = 0f;
     }
 
     // Update is called once per frame
@@ -39,12 +40,12 @@ public class marshmallow_stick : MonoBehaviour
         if (Input.GetMouseButton(MOUSE))
         {
             SetTargetPosition();
-            nRoastSFX.UnPause();
+            //marshmallow.newRoastSFX.UnPause();
         }
         else
         {
             SetOriginalPosition();
-            nRoastSFX.Pause();
+            //marshmallow.newRoastSFX.Pause();
         }
         if (isMoving)
         {
@@ -59,20 +60,20 @@ public class marshmallow_stick : MonoBehaviour
         {
            // nothing
         }
-        VolumeModifier = (marshmallow.volumeMod / 8);
+        //VolumeModifier = (marshmallow.volumeMod / 8);
         //Debug.Log("Volume Modifier = " + VolumeModifier);
-        nRoastSFX.volume = VolumeModifier;
+        //nRoastSFX.volume = VolumeModifier;
     }
         
     void SetTargetPosition()
     {
         adjPos = new Vector3(600,50,0);
+        // ^
         // This position adjustment is based on a 1200x600 resolution. 
         // If we want to support multiple resolutions this would need actual math based on screen size.
         // X would be Screen width / 2. Y would be screen height / 12
 
         relPos = Input.mousePosition - clickPos + adjPos;
-        //Debug.Log("relative " + relPos.x + " , " + relPos.y);
         Plane plane = new Plane(Vector3.forward, transform.position);
         Ray ray = Camera.main.ScreenPointToRay(relPos);
         float point = 0f;
