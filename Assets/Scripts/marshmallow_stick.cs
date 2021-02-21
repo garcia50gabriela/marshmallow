@@ -14,6 +14,7 @@ public class marshmallow_stick : MonoBehaviour
     public GameObject fire;
     const int MOUSE = 0;
     private float zpos;
+    public GameObject dialogBox;
     //private static float VolumeModifier;
     //AudioSource nRoastSFX;
 
@@ -36,33 +37,41 @@ public class marshmallow_stick : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // move around fire
-        if (Input.GetMouseButton(MOUSE))
+        if (game_data.marshmallowIsPresent)
         {
-            SetTargetPosition();
-            //marshmallow.newRoastSFX.UnPause();
+            // move around fire
+            if (Input.GetMouseButton(MOUSE))
+            {
+                if (Input.mousePosition.y > 25)
+                {
+                    SetTargetPosition();
+                    dialogBox.GetComponent<dialog_box>().hide_done_button();
+                }
+                //marshmallow.newRoastSFX.UnPause();
+            }
+            else
+            {
+                SetOriginalPosition();
+                dialogBox.GetComponent<dialog_box>().show_done_button();
+                //marshmallow.newRoastSFX.Pause();
+            }
+            if (isMoving)
+            {
+                MoveObject();
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                clickPos = Input.mousePosition;
+                // Debug.Log("Left click detected at " + clickPos.x + " , " + clickPos.y + " , " + clickPos.z );
+            }
+            else
+            {
+                // nothing
+            }
+            //VolumeModifier = (marshmallow.volumeMod / 8);
+            //Debug.Log("Volume Modifier = " + VolumeModifier);
+            //nRoastSFX.volume = VolumeModifier;
         }
-        else
-        {
-            SetOriginalPosition();
-            //marshmallow.newRoastSFX.Pause();
-        }
-        if (isMoving)
-        {
-            MoveObject();
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            clickPos = Input.mousePosition;
-             //Debug.Log("Left click detected at " + clickPos.x + " , " + clickPos.y + " , " + clickPos.z );
-        }
-        else 
-        {
-           // nothing
-        }
-        //VolumeModifier = (marshmallow.volumeMod / 8);
-        //Debug.Log("Volume Modifier = " + VolumeModifier);
-        //nRoastSFX.volume = VolumeModifier;
     }
         
     void SetTargetPosition()
@@ -81,7 +90,7 @@ public class marshmallow_stick : MonoBehaviour
         if (plane.Raycast(ray, out point)) 
         {
             targetPos = ray.GetPoint(point);
-            if (targetPos.x < ogPos.x - 2.5 || targetPos.x > ogPos.x + 2.5)
+            if (targetPos.x < ogPos.x - 2.5 || targetPos.x > ogPos.x + 2.5 || targetPos.y < 1f)
             {
                targetPos = ogPos;
             }

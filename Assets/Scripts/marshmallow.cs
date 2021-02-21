@@ -22,8 +22,10 @@ public class marshmallow : MonoBehaviour
     public GameObject marshmallowFire;
     public bool isNewBadge;
     public GameObject sparkles;
+    public GameObject newMarshmallowButton;
+    public GameObject admireAchievementsButton;
 
-//SFX
+    //SFX
     public static float nVolMult;
     public float nVolMod;
     public static float sVolMult;
@@ -229,9 +231,12 @@ public class marshmallow : MonoBehaviour
     }
     public void resetMarshmallow()
     {
-        gameObject.SetActive(true);
+        gameObject.GetComponent<MeshRenderer>().enabled = true;
+        game_data.marshmallowIsPresent = true;
+        newMarshmallowButton.GetComponent<Button>().interactable = false;
+        admireAchievementsButton.GetComponent<Button>().interactable = false;
 
-        checkForAchievements(n, s);
+        //checkForAchievements(n, s);
         n = 0f;
         s = 0f;
         var white = new Color(1f, 1f, 1f, 1f);
@@ -248,7 +253,7 @@ public class marshmallow : MonoBehaviour
         timePassedPerMallow = 0.0f;
         fireCounterPerMallow = 0;
     }
-    void checkForAchievements(float n, float s) 
+    public bool checkForAchievements() 
     {
         UnityEngine.UI.Text achievementsText = Achievements.GetComponent<UnityEngine.UI.Text>();
 
@@ -313,9 +318,10 @@ public class marshmallow : MonoBehaviour
         // we need an if statement here!
         if (isNewBadge == true)
         {
-            StartCoroutine(FadeTextToZeroAlpha(3f, achievementsText));
+            StartCoroutine(FadeTextToZeroAlpha(6f, achievementsText));
         }
-        
+        return isNewBadge;
+
     }
 
     public IEnumerator FadeTextToZeroAlpha(float t, UnityEngine.UI.Text i)
@@ -326,5 +332,25 @@ public class marshmallow : MonoBehaviour
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
             yield return null;
         }
+    }
+
+    public void end_marshmallow() 
+    {
+        n = 0f;
+        s = 0f;
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        game_data.marshmallowIsPresent = false;
+
+        sparkles.SetActive(false);
+
+        isOnFire = false;
+        marshmallowFire.SetActive(false);
+
+    }
+
+    public void re_enable_buttons()
+    {
+        newMarshmallowButton.GetComponent<Button>().interactable = true;
+        admireAchievementsButton.GetComponent<Button>().interactable = true;
     }
 }

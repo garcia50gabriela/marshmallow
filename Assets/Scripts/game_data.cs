@@ -12,7 +12,7 @@ public static class game_data
         //public float S { get; set; }
         public bool Earned { get; set; }
     }
-
+    private static bool MarshmallowIsPresent = false;
     private static Dictionary<int, Achievement> achievement_dict = new Dictionary<int, Achievement>() {
         {0,  new Achievement{Name="Dark Side", Earned=false } },
         {1,  new Achievement{Name="Good & Golden", Earned=false } },
@@ -24,11 +24,23 @@ public static class game_data
         {7,  new Achievement{Name="Smorldering Hot", Earned=false } },
     };
 
+
     public static Dictionary<int, Achievement> AchievementDict
     {
         get
         {
             return achievement_dict;
+        }
+    }
+    public static bool marshmallowIsPresent
+    {
+        get
+        {
+            return MarshmallowIsPresent;
+        }
+        set
+        {
+            MarshmallowIsPresent = value;
         }
     }
 }
