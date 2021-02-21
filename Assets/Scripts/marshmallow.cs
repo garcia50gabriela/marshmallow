@@ -21,6 +21,7 @@ public class marshmallow : MonoBehaviour
     private bool isOnFire;
     public GameObject marshmallowFire;
     public bool isNewBadge;
+    public GameObject sparkles;
 
 //SFX
     public static float nVolMult;
@@ -90,6 +91,7 @@ public class marshmallow : MonoBehaviour
     }
     void updateVisualIndicators() 
     {
+        // marshmallow colors
         if (n > 0f)
         {
             var currentColor = gameObject.GetComponent<MeshRenderer>().material.GetColor("Color_2");
@@ -149,6 +151,15 @@ public class marshmallow : MonoBehaviour
             }
             South.GetComponent<UnityEngine.UI.Text>().text = (s * 10).ToString("F0") + "%";
             bottomMarshmallow.GetComponent<Image>().color = newColor;
+        }
+        //sparkles
+        if (n < 9 && s < 9 && s > 7 && n > 7)
+        {
+            sparkles.SetActive(true);
+        }
+        else
+        {
+            sparkles.SetActive(false);
         }
     }
     void OnTriggerStay(Collider other)
@@ -218,6 +229,8 @@ public class marshmallow : MonoBehaviour
     }
     public void resetMarshmallow()
     {
+        gameObject.SetActive(true);
+
         checkForAchievements(n, s);
         n = 0f;
         s = 0f;
