@@ -24,6 +24,8 @@ public class marshmallow : MonoBehaviour
     public GameObject sparkles;
     public GameObject newMarshmallowButton;
     public GameObject admireAchievementsButton;
+    public GameObject smallMarshmallow;
+    public GameObject smallStick;
 
     //SFX
     public static float nVolMult;
@@ -52,6 +54,10 @@ public class marshmallow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!Input.GetMouseButton(0))
+        {
+            smallStick.transform.eulerAngles = new Vector3(0, 0, 0);
+        }
         updateVisualIndicators();
         checkAndUpdateFlame();
         timePassedPerMallow += Time.deltaTime;
@@ -116,6 +122,7 @@ public class marshmallow : MonoBehaviour
                 green = 0f;
             var newColor = new Color(red, green, blue, 1f);
             gameObject.GetComponent<MeshRenderer>().material.SetColor("Color_2", newColor);
+            smallMarshmallow.GetComponent<MeshRenderer>().material.SetColor("Color_2", newColor);
             topBar.GetComponent<Image>().color = newColor;
             if (n <= 10f)
             {
@@ -145,7 +152,8 @@ public class marshmallow : MonoBehaviour
             if (green <= 0f)
                 green = 0f;
             var newColor = new Color(red, green, blue, 1f);
-            gameObject.GetComponent<MeshRenderer>().material.SetColor("Color_1", new Color(red, green, blue, 1f));
+            gameObject.GetComponent<MeshRenderer>().material.SetColor("Color_1", newColor);
+            smallMarshmallow.GetComponent<MeshRenderer>().material.SetColor("Color_1", newColor);
             bottomBar.GetComponent<Image>().color = newColor;
             if (s <= 10f)
             {
@@ -179,6 +187,7 @@ public class marshmallow : MonoBehaviour
                 //South.GetComponent<UnityEngine.UI.Text>().text = (s).ToString();
 
             }
+            smallStick.transform.eulerAngles = new Vector3(0, 0, -20);
         }
         if (other.name == "burn")
         {
@@ -196,6 +205,18 @@ public class marshmallow : MonoBehaviour
                 South.GetComponent<UnityEngine.UI.Text>().text = (s).ToString();
                 North.GetComponent<UnityEngine.UI.Text>().text = (n).ToString();
             }
+            smallStick.transform.eulerAngles = new Vector3(0, 0, -40);
+        }
+    }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "roast")
+        {
+            smallStick.transform.eulerAngles = new Vector3(0, 0, -20);
+        }
+        if (other.name == "burn")
+        {
+            smallStick.transform.eulerAngles = new Vector3(0, 0, -40);
         }
     }
     void OnTriggerExit(Collider other)
@@ -203,6 +224,11 @@ public class marshmallow : MonoBehaviour
         if (other.name == "burn")
         {
             applyFlameProbability();
+            smallStick.transform.eulerAngles = new Vector3(0, 0, -20);
+        }
+        if (other.name == "roast") 
+        {
+            smallStick.transform.eulerAngles = new Vector3(0, 0, 0);
         }
     }
     public void applyFlameProbability() 
@@ -232,6 +258,7 @@ public class marshmallow : MonoBehaviour
     public void resetMarshmallow()
     {
         gameObject.GetComponent<MeshRenderer>().enabled = true;
+        smallMarshmallow.GetComponent<MeshRenderer>().enabled = true;
         game_data.marshmallowIsPresent = true;
         newMarshmallowButton.GetComponent<Button>().interactable = false;
         admireAchievementsButton.GetComponent<Button>().interactable = false;
@@ -242,6 +269,8 @@ public class marshmallow : MonoBehaviour
         var white = new Color(1f, 1f, 1f, 1f);
         gameObject.GetComponent<MeshRenderer>().material.SetColor("Color_1", white);
         gameObject.GetComponent<MeshRenderer>().material.SetColor("Color_2", white);
+        smallMarshmallow.GetComponent<MeshRenderer>().material.SetColor("Color_1", white);
+        smallMarshmallow.GetComponent<MeshRenderer>().material.SetColor("Color_2", white);
         South.GetComponent<UnityEngine.UI.Text>().text = (s).ToString() + "%";
         North.GetComponent<UnityEngine.UI.Text>().text = (n).ToString() + "%";
         topBar.GetComponent<Image>().color = white;
@@ -339,6 +368,7 @@ public class marshmallow : MonoBehaviour
         n = 0f;
         s = 0f;
         gameObject.GetComponent<MeshRenderer>().enabled = false;
+        smallMarshmallow.GetComponent<MeshRenderer>().enabled = false;
         game_data.marshmallowIsPresent = false;
 
         sparkles.SetActive(false);
