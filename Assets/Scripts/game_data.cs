@@ -13,6 +13,7 @@ public static class game_data
         public bool Earned { get; set; }
     }
     private static bool MarshmallowIsPresent = false;
+    private static int raccoon_counter = 0;
     private static Dictionary<int, Achievement> achievement_dict = new Dictionary<int, Achievement>() {
         {0,  new Achievement{Name="Dark Side", Earned=false } },
         {1,  new Achievement{Name="Good & Golden", Earned=false } },
@@ -41,6 +42,17 @@ public static class game_data
         set
         {
             MarshmallowIsPresent = value;
+        }
+    }
+    public static int raccoonCounter
+    {
+        get
+        {
+            return raccoon_counter;
+        }
+        set
+        {
+            raccoon_counter = value;
         }
     }
 }

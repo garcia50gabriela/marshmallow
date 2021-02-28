@@ -5,10 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class scene_manager : MonoBehaviour
 {
+    public GameObject raccoons;
     // Start is called before the first frame update
     void Start()
     {
         
+    }
+
+    void Awake()
+    {
+        DontDestroyOnLoad(raccoons);
     }
 
     // Update is called once per frame
