@@ -18,10 +18,11 @@ public class marshmallow : MonoBehaviour
     public GameObject bottomMarshmallow;
     public float timePassedPerMallow = 0.0f;
     private int fireCounterPerMallow = 0;
-    private bool isOnFire;
+    public bool isOnFire;
     public GameObject marshmallowFire;
     public bool isNewBadge;
     public GameObject sparkles;
+    public bool isSparkly;
     public GameObject newMarshmallowButton;
     public GameObject admireAchievementsButton;
     public GameObject smallMarshmallow;
@@ -166,10 +167,12 @@ public class marshmallow : MonoBehaviour
         if (n < 9 && s < 9 && s > 7 && n > 7)
         {
             sparkles.SetActive(true);
+            isSparkly = true;
         }
         else
         {
             sparkles.SetActive(false);
+            isSparkly = false;
         }
     }
     void OnTriggerStay(Collider other)
@@ -187,7 +190,6 @@ public class marshmallow : MonoBehaviour
                 //South.GetComponent<UnityEngine.UI.Text>().text = (s).ToString();
 
             }
-            smallStick.transform.eulerAngles = new Vector3(0, 0, -20);
         }
         if (other.name == "burn")
         {
@@ -205,9 +207,9 @@ public class marshmallow : MonoBehaviour
                 South.GetComponent<UnityEngine.UI.Text>().text = (s).ToString();
                 North.GetComponent<UnityEngine.UI.Text>().text = (n).ToString();
             }
-            smallStick.transform.eulerAngles = new Vector3(0, 0, -40);
         }
     }
+    // stick meter and flame chance
     void OnTriggerEnter(Collider other)
     {
         if (other.name == "roast")
@@ -372,6 +374,7 @@ public class marshmallow : MonoBehaviour
         game_data.marshmallowIsPresent = false;
 
         sparkles.SetActive(false);
+        isSparkly = false;
 
         isOnFire = false;
         marshmallowFire.SetActive(false);

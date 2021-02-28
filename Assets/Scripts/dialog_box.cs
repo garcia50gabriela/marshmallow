@@ -10,6 +10,8 @@ public class dialog_box : MonoBehaviour
     public GameObject followupBoxHolder;
     public GameObject followupText;
     public GameObject marshmallow;
+    public GameObject[] raccoons;
+    private int raccoon_counter = 0;
     private float dialog_box_height;
     private Vector3 dialog_box_position;
     private float done_button_height;
@@ -75,10 +77,11 @@ public class dialog_box : MonoBehaviour
 
     public void give()
     {
-        hide_marshmallow();
         hide_dialog_box();
         hide_done_button();
         followupText.GetComponent<Text>().text = "You gave it to a nearby racoon, they seemed appreciative!";
+        show_raccoon();
+        hide_marshmallow();
         show_followup_box();
     }
 
@@ -103,5 +106,20 @@ public class dialog_box : MonoBehaviour
     private void hide_marshmallow() 
     {
         marshmallow.GetComponent<marshmallow>().end_marshmallow();
+    }
+
+    private void show_raccoon() 
+    {
+        var color_1 = marshmallow.GetComponent<MeshRenderer>().material.GetColor("Color_1");
+        var color_2 = marshmallow.GetComponent<MeshRenderer>().material.GetColor("Color_2");
+        var isOnFire = marshmallow.GetComponent<marshmallow>().isOnFire;
+        var isSparkly = marshmallow.GetComponent<marshmallow>().isSparkly;
+        raccoons[raccoon_counter].GetComponent<raccoon>().update_marshmallow(color_1, color_2, isOnFire, isSparkly);
+        raccoons[raccoon_counter].active = true;
+        raccoon_counter++;
+        if (raccoon_counter >= raccoons.Length) 
+        {
+            raccoon_counter = 0;
+        }
     }
 }
