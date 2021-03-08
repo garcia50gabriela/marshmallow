@@ -12,8 +12,10 @@ public class achievement_display : MonoBehaviour
     public GameObject charred_badge;
     public GameObject flambe_badge;
     public GameObject hot_badge;
-    public GameObject metal_badge;
     public GameObject rapid_badge;
+    public GameObject slow_badge;
+    public GameObject fall_badge;
+    public GameObject burn_badge;
     private static Dictionary<string, GameObject> badge_dict;
     // Start is called before the first frame update
     void Start()
@@ -24,9 +26,11 @@ public class achievement_display : MonoBehaviour
         {"UnRoasted", raw_badge},
         {"Completely Charred", charred_badge},
         {"Flambé <3", flambe_badge},
-        {"Metal Mallow", metal_badge},
         {"Smorldering Hot", hot_badge},
-        {"Rapid Roast", rapid_badge}
+        {"Rapid Roast", rapid_badge},
+        {"Slow Roast", slow_badge},
+        {"Free Falling", fall_badge},
+        {"Burn Baby Burn", burn_badge},
         };
 
         foreach (KeyValuePair<int, game_data.Achievement> a in game_data.AchievementDict)

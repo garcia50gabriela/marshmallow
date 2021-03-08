@@ -23,10 +23,14 @@ public class marshmallow : MonoBehaviour
     public bool isNewBadge;
     public GameObject sparkles;
     public bool isSparkly;
+    public bool fellOff;
     public GameObject newMarshmallowButton;
     public GameObject admireAchievementsButton;
     public GameObject smallMarshmallow;
     public GameObject smallStick;
+    private UnityEngine.UI.Text achievementsText;
+    private Vector3 startPosition;
+    private Quaternion startRotation;
 
     //SFX
     public static float nVolMult;
@@ -39,6 +43,10 @@ public class marshmallow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        startPosition = gameObject.transform.localPosition;
+        startRotation = gameObject.transform.localRotation;
+        achievementsText = Achievements.GetComponent<UnityEngine.UI.Text>();
+
         nVolMult = 0;
         sVolMult = 0;
         nVolMod = 0f;
@@ -96,7 +104,6 @@ public class marshmallow : MonoBehaviour
         nRoastSFX.volume = nVolMod;
         sVolMod = (sVolMult / 20);
         sRoastSFX.volume = sVolMod;
-        
     }
     void updateVisualIndicators() 
     {
@@ -164,15 +171,18 @@ public class marshmallow : MonoBehaviour
             bottomMarshmallow.GetComponent<Image>().color = newColor;
         }
         //sparkles
-        if (n < 9 && s < 9 && s > 7 && n > 7)
+        if (gameObject.GetComponent<MeshRenderer>().enabled)
         {
-            sparkles.SetActive(true);
-            isSparkly = true;
-        }
-        else
-        {
-            sparkles.SetActive(false);
-            isSparkly = false;
+            if (n < 9 && s < 9 && s > 7 && n > 7)
+            {
+                sparkles.SetActive(true);
+                isSparkly = true;
+            }
+            else
+            {
+                sparkles.SetActive(false);
+                isSparkly = false;
+            }
         }
     }
     void OnTriggerStay(Collider other)
@@ -208,29 +218,51 @@ public class marshmallow : MonoBehaviour
                 North.GetComponent<UnityEngine.UI.Text>().text = (n).ToString();
             }
         }
+        fallOffPossibility();
+    }
+    void fallOffPossibility()
+    {
+        // add probability?
+        if ((bottomInd.transform.position.y < topInd.transform.position.y) && s >= 10 && n <=2)
+        {
+            gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            fellOff = true;
+        }
+        else if ((bottomInd.transform.position.y > topInd.transform.position.y) && n >= 10 && s <= 2)
+        {
+            gameObject.GetComponent<Rigidbody>().isKinematic = false;
+            fellOff = true;
+        }
     }
     // stick meter and flame chance
     void OnTriggerEnter(Collider other)
     {
-        if (other.name == "roast")
+        if (!fellOff) 
         {
-            smallStick.transform.eulerAngles = new Vector3(0, 0, -20);
+            if (other.name == "roast")
+            {
+                smallStick.transform.eulerAngles = new Vector3(0, 0, -20);
+            }
+            if (other.name == "burn")
+            {
+                smallStick.transform.eulerAngles = new Vector3(0, 0, -40);
+            }
         }
-        if (other.name == "burn")
-        {
-            smallStick.transform.eulerAngles = new Vector3(0, 0, -40);
-        }
+        
     }
     void OnTriggerExit(Collider other)
     {
-        if (other.name == "burn")
+        if (!fellOff)
         {
-            applyFlameProbability();
-            smallStick.transform.eulerAngles = new Vector3(0, 0, -20);
-        }
-        if (other.name == "roast") 
-        {
-            smallStick.transform.eulerAngles = new Vector3(0, 0, 0);
+            if (other.name == "burn")
+            {
+                applyFlameProbability();
+                smallStick.transform.eulerAngles = new Vector3(0, 0, -20);
+            }
+            if (other.name == "roast")
+            {
+                smallStick.transform.eulerAngles = new Vector3(0, 0, 0);
+            }
         }
     }
     public void applyFlameProbability() 
@@ -259,6 +291,9 @@ public class marshmallow : MonoBehaviour
     }
     public void resetMarshmallow()
     {
+        gameObject.GetComponent<Rigidbody>().isKinematic = true;
+        gameObject.transform.localPosition = startPosition;
+        gameObject.transform.localRotation = startRotation;
         gameObject.GetComponent<MeshRenderer>().enabled = true;
         smallMarshmallow.GetComponent<MeshRenderer>().enabled = true;
         game_data.marshmallowIsPresent = true;
@@ -286,12 +321,18 @@ public class marshmallow : MonoBehaviour
     }
     public bool checkForAchievements() 
     {
-        UnityEngine.UI.Text achievementsText = Achievements.GetComponent<UnityEngine.UI.Text>();
 
-        //Debug.Log(game_data.AchievementDict[0].Name + " is " + game_data.AchievementDict[0].Earned);
         isNewBadge = false;
+        
+        // fell off
+        if (fellOff && !game_data.AchievementDict[10].Earned)
+        {
+            achievementsText.text = ("New Achievement! " + game_data.AchievementDict[10].Name);
+            game_data.AchievementDict[10].Earned = true;
+            isNewBadge = true;
+        }
         // dark side
-        if ((n < 1 && s > 10 || s < 2 && n > 10) && !game_data.AchievementDict[0].Earned) 
+        else if ((n < 1 && s > 10 || s < 2 && n > 10) && !game_data.AchievementDict[0].Earned) 
         {
             achievementsText.text = ("New Achievement! " + game_data.AchievementDict[0].Name);
             game_data.AchievementDict[0].Earned = true;
@@ -318,13 +359,6 @@ public class marshmallow : MonoBehaviour
             game_data.AchievementDict[3].Earned = true;
             isNewBadge = true;
         }
-        // 6666
-        else if (Mathf.Round(n * 10f) == 66 && Mathf.Round(s * 10f) == 66 && !game_data.AchievementDict[4].Earned)
-        {
-            achievementsText.text = ("New Achievement! " + game_data.AchievementDict[4].Name);
-            game_data.AchievementDict[4].Earned = true;
-            isNewBadge = true;
-        }
         // Rapid Roast
         else if (timePassedPerMallow <= 25f && n < 9 && s < 9 && s > 7 && n > 7 && !game_data.AchievementDict[5].Earned && game_data.AchievementDict[1].Earned)
         {
@@ -346,6 +380,20 @@ public class marshmallow : MonoBehaviour
             game_data.AchievementDict[7].Earned = true;
             isNewBadge = true;
         }
+        // on fire
+        else if (isOnFire && !game_data.AchievementDict[8].Earned)
+        {
+            achievementsText.text = ("New Achievement! " + game_data.AchievementDict[8].Name);
+            game_data.AchievementDict[8].Earned = true;
+            isNewBadge = true;
+        }
+        // slow roast
+        else if (timePassedPerMallow > 30f && !game_data.AchievementDict[9].Earned)
+        {
+            achievementsText.text = ("New Achievement! " + game_data.AchievementDict[9].Name);
+            game_data.AchievementDict[9].Earned = true;
+            isNewBadge = true;
+        }
         // we need an if statement here!
         if (isNewBadge == true)
         {
@@ -365,19 +413,23 @@ public class marshmallow : MonoBehaviour
         }
     }
 
+    public void hide_marshmallow()
+    {
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        smallMarshmallow.GetComponent<MeshRenderer>().enabled = false;
+        marshmallowFire.SetActive(false);
+        sparkles.SetActive(false);
+        game_data.marshmallowIsPresent = false;
+    }
+
     public void end_marshmallow() 
     {
         n = 0f;
         s = 0f;
-        gameObject.GetComponent<MeshRenderer>().enabled = false;
-        smallMarshmallow.GetComponent<MeshRenderer>().enabled = false;
-        game_data.marshmallowIsPresent = false;
 
-        sparkles.SetActive(false);
         isSparkly = false;
-
         isOnFire = false;
-        marshmallowFire.SetActive(false);
+        fellOff = false;
 
     }
 
