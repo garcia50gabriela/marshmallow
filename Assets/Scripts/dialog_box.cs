@@ -21,6 +21,7 @@ public class dialog_box : MonoBehaviour
     private float followup_box_height;
     private Vector3 followup_box_position;
     private bool give_chosen = false;
+    private bool isOnFire, isSparkly, fellOff;
     private string[] raccoon_dialog = new string[] {
         "Thanks pal, this looks almost as good as the trash I just ate.",
         "Oh no, looks like I'll have to postpone my diet until tomorrow!",
@@ -42,9 +43,7 @@ public class dialog_box : MonoBehaviour
         "could this be more s'more scrumptious?!",
         "that was a mouthwatering marshmallow!",
         "...mmmmm... gooey..",
-        "flaming with flavor!",
         "exquisite taste on a stick",
-        "like a heavenly cloud of sugar",
         "delicious, divine, delectable, do I need say s'more?"
     };
 
@@ -62,6 +61,9 @@ public class dialog_box : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isOnFire = marshmallow.GetComponent<marshmallow>().isOnFire;
+        isSparkly = marshmallow.GetComponent<marshmallow>().isSparkly;
+        fellOff = marshmallow.GetComponent<marshmallow>().fellOff;
     }
 
     public void show_done_button()
@@ -96,6 +98,7 @@ public class dialog_box : MonoBehaviour
         {
             show_raccoon();
         }
+        marshmallow.GetComponent<marshmallow>().end_marshmallow();
         raccoonImage.active = false;
         possumImage.active = false;
         disablePanel.active = false;
@@ -106,10 +109,21 @@ public class dialog_box : MonoBehaviour
 
     public void eat()
     {
-        hide_marshmallow();
+        marshmallow.GetComponent<marshmallow>().hide_marshmallow();
         hide_dialog_box();
         hide_done_button();
-        followupText.GetComponent<Text>().text = eat_dialog[Random.Range(0, eat_dialog.Length)];
+        if (fellOff)
+        {
+            followupText.GetComponent<Text>().text = "Do you usually eat things off the ground?";
+        }
+        else if (isOnFire)
+        {
+            followupText.GetComponent<Text>().text = "Ow! That one might of been too hot..";
+        }
+        else 
+        {
+            followupText.GetComponent<Text>().text = eat_dialog[Random.Range(0, eat_dialog.Length)];
+        }
         show_followup_box();
     }
 
@@ -118,22 +132,33 @@ public class dialog_box : MonoBehaviour
         give_chosen = true;
         hide_dialog_box();
         hide_done_button();
-        followupText.GetComponent<Text>().text = raccoon_dialog[Random.Range(0, raccoon_dialog.Length)];
+        if (fellOff) 
+        {
+            followupText.GetComponent<Text>().text = "I don't mind that you dropped it, a little dirt never hurt anyone.";
+        }
+        else if (isOnFire)
+        {
+            followupText.GetComponent<Text>().text = "Thanks, this looks like it's flaming with flavor!";
+        }
+        else
+        {
+            followupText.GetComponent<Text>().text = raccoon_dialog[Random.Range(0, raccoon_dialog.Length)];
+        }
         raccoonImage.active = true;
-        hide_marshmallow();
+        marshmallow.GetComponent<marshmallow>().hide_marshmallow();
         show_followup_box();
     }
 
     public void inspect()
     {
         bool isNewBadge = marshmallow.GetComponent<marshmallow>().checkForAchievements();
-        hide_marshmallow();
+        marshmallow.GetComponent<marshmallow>().hide_marshmallow();
 
         hide_dialog_box();
         hide_done_button();
         if (isNewBadge)
         {
-            followupText.GetComponent<Text>().text = "Warmest congratulations! You earned a new badge!";
+            followupText.GetComponent<Text>().text = "Warmest congratulations! Based on my proffessional opinion you have earned a new badge!";
         }
         else 
         {
@@ -143,17 +168,10 @@ public class dialog_box : MonoBehaviour
         show_followup_box();
     }
 
-    private void hide_marshmallow() 
-    {
-        marshmallow.GetComponent<marshmallow>().end_marshmallow();
-    }
-
     private void show_raccoon() 
     {
         var color_1 = marshmallow.GetComponent<MeshRenderer>().material.GetColor("Color_1");
         var color_2 = marshmallow.GetComponent<MeshRenderer>().material.GetColor("Color_2");
-        var isOnFire = marshmallow.GetComponent<marshmallow>().isOnFire;
-        var isSparkly = marshmallow.GetComponent<marshmallow>().isSparkly;
         raccoons[game_data.raccoonCounter].GetComponent<raccoon>().update_marshmallow(color_1, color_2, isOnFire, isSparkly);
         raccoons[game_data.raccoonCounter].active = true;
         game_data.raccoonCounter++;
