@@ -9,7 +9,7 @@ public class scene_manager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     void Awake()
@@ -33,5 +33,10 @@ public class scene_manager : MonoBehaviour
     public void loadGameScene()
     {
         SceneManager.LoadScene("marshmallow_roasting_skybox");
+    }
+
+    public void loadInstructionsScene()
+    {
+        SceneManager.LoadScene("instructions");
     }
 }
