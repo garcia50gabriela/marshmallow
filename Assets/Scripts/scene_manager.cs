@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class scene_manager : MonoBehaviour
 {
-    public GameObject raccoons;
+    public GameObject raccoons = null;
+    public GameObject audio = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,7 @@ public class scene_manager : MonoBehaviour
     void Awake()
     {
         DontDestroyOnLoad(raccoons);
+        DontDestroyOnLoad(audio);
     }
 
     // Update is called once per frame

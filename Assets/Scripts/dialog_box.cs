@@ -46,6 +46,25 @@ public class dialog_box : MonoBehaviour
         "exquisite taste on a stick",
         "delicious, divine, delectable, do I need say s'more?"
     };
+    private string[] eat_fire_dialog = new string[] {
+        "Ow! That one might of been too hot..",
+        "I think I burned the roof of my mouth",
+        "Zesty",
+    };
+    private string[] give_fire_dialog = new string[] {
+        "Thanks, this looks like it's flaming with flavor!",
+        "Is this a marshmallow or a hot coal?",
+        "Perfect this will make a good torch on this dark night",
+    };
+    private string[] eat_fell_dialog = new string[] {
+        "Do you usually eat things off the ground?",
+        "*5 Second Rule*",
+        "Was that dirt or a burnt edge?"
+    };
+    private string[] give_fell_dialog = new string[] {
+        "I don't mind that you dropped it, a little dirt never hurt anyone.",
+        "hmm.. Didn't I just see you drop this marshmallow?",
+    };
 
     // Start is called before the first frame update
     void Start()
@@ -114,11 +133,11 @@ public class dialog_box : MonoBehaviour
         hide_done_button();
         if (fellOff)
         {
-            followupText.GetComponent<Text>().text = "Do you usually eat things off the ground?";
+            followupText.GetComponent<Text>().text = eat_fell_dialog[Random.Range(0, eat_fell_dialog.Length)];
         }
         else if (isOnFire)
         {
-            followupText.GetComponent<Text>().text = "Ow! That one might of been too hot..";
+            followupText.GetComponent<Text>().text = eat_fire_dialog[Random.Range(0, eat_fire_dialog.Length)];
         }
         else 
         {
@@ -134,11 +153,11 @@ public class dialog_box : MonoBehaviour
         hide_done_button();
         if (fellOff) 
         {
-            followupText.GetComponent<Text>().text = "I don't mind that you dropped it, a little dirt never hurt anyone.";
+            followupText.GetComponent<Text>().text = give_fell_dialog[Random.Range(0, give_fell_dialog.Length)];
         }
         else if (isOnFire)
         {
-            followupText.GetComponent<Text>().text = "Thanks, this looks like it's flaming with flavor!";
+            followupText.GetComponent<Text>().text = give_fire_dialog[Random.Range(0, give_fire_dialog.Length)];
         }
         else
         {

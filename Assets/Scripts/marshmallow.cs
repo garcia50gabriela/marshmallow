@@ -79,32 +79,97 @@ public class marshmallow : MonoBehaviour
         //{
         //    nRoastSFX.Pause();
         //}
-
-        if (n < 10f)
-        {
-            nVolMult = n;
-        }
-
-        else
-        {
-            nVolMult = 10;
-        }
-
-        if (s < 10f)
-        {
-            sVolMult = s;
-        }
-
-        else
-        {
-            sVolMult = 10;
-        }
-
-        nVolMod = (nVolMult / 20);
-        nRoastSFX.volume = nVolMod;
-        sVolMod = (sVolMult / 20);
-        sRoastSFX.volume = sVolMod;
+        adjustMarshmallowSound();
+        //updateTips();
     }
+
+    void adjustMarshmallowSound() 
+    {
+        if (gameObject.GetComponent<MeshRenderer>().enabled)
+        {
+            if (n < 10f)
+            {
+                nVolMult = n;
+            }
+
+            else
+            {
+                nVolMult = 10;
+            }
+
+            if (s < 10f)
+            {
+                sVolMult = s;
+            }
+
+            else
+            {
+                sVolMult = 10;
+            }
+
+            nVolMod = (nVolMult / 33);
+            nRoastSFX.volume = nVolMod;
+            sVolMod = (sVolMult / 33);
+            sRoastSFX.volume = sVolMod;
+        }
+    }
+    void updateTips() 
+    {
+
+        if (isSparkly)
+        {
+            if (achievementsText.text == string.Empty)
+            {
+                achievementsText.text = ("Your marshmallow is perfectly golden!");
+                StartCoroutine(FadeTextToZeroAlpha(6f, achievementsText));
+            }
+        }
+        else if (isOnFire)
+        {
+            if (achievementsText.text == string.Empty)
+            {
+                achievementsText.text = ("Your Marshmallow is on fire! You can use the spacebar to blow it out.");
+                StartCoroutine(FadeTextToZeroAlpha(6f, achievementsText));
+            }
+        }
+        else if ((s >= 3f && n <=1) || (n >= 3f && s <= 1))
+        {
+            if (achievementsText.text == string.Empty)
+            {
+                achievementsText.text = ("Turn your stick for even roasting.");
+                StartCoroutine(FadeTextToZeroAlpha(6f, achievementsText));
+            }
+        }
+        else if (n == 0 && s == 0 && gameObject.GetComponent<MeshRenderer>().enabled)
+        {
+            if (achievementsText.text == string.Empty)
+            {
+                achievementsText.text = ("Click and hold the mouse button to move the stick towards the fire.");
+                StartCoroutine(FadeTextToZeroAlpha(6f, achievementsText));
+            }
+        }
+        else if (!gameObject.GetComponent<MeshRenderer>().enabled)
+        {
+            if (achievementsText.text == string.Empty)
+            {
+                achievementsText.text = ("Click 'New Marshmallow' to start roasting!");
+                StartCoroutine(FadeTextToZeroAlpha(6f, achievementsText));
+            }
+        }
+        else if (n >= 10f && s >= 10f)
+        {
+            if (achievementsText.text == string.Empty)
+            {
+                achievementsText.text = ("Your marshmallow is pretty burnt, if your done roasting, click 'done'.");
+                StartCoroutine(FadeTextToZeroAlpha(6f, achievementsText));
+            }
+        }
+        else
+        {
+            achievementsText.text = string.Empty;
+        }
+    }
+
     void updateVisualIndicators() 
     {
         // marshmallow colors
@@ -409,8 +474,13 @@ public class marshmallow : MonoBehaviour
         while (i.color.a > 0.0f)
         {
             i.color = new Color(i.color.r, i.color.g, i.color.b, i.color.a - (Time.deltaTime / t));
+            if (i.color.a == 0.0f)
+            {
+                i.text = string.Empty;
+            }
             yield return null;
         }
+        
     }
 
     public void hide_marshmallow()
@@ -420,6 +490,10 @@ public class marshmallow : MonoBehaviour
         marshmallowFire.SetActive(false);
         sparkles.SetActive(false);
         game_data.marshmallowIsPresent = false;
+        IEnumerator fadeSound1 = FadeOut(nRoastSFX, 2f);
+        IEnumerator fadeSound2 = FadeOut(sRoastSFX, 2f);
+        StartCoroutine(fadeSound1);
+        StartCoroutine(fadeSound2);
     }
 
     public void end_marshmallow() 
@@ -437,5 +511,20 @@ public class marshmallow : MonoBehaviour
     {
         newMarshmallowButton.GetComponent<Button>().interactable = true;
         admireAchievementsButton.GetComponent<Button>().interactable = true;
+    }
+
+    public IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
+    {
+        float startVolume = audioSource.volume;
+
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+
+            yield return null;
+        }
+
+        //audioSource.Stop();
+        //audioSource.volume = startVolume;
     }
 }
