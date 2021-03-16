@@ -296,7 +296,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: e665e9b364a0cba4c809a605cdbe345f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b6382996d7069fc4e9e40907d2a85e30, type: 3}
   m_Color: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 0.54509807}
   m_FlipX: 0
   m_FlipY: 0
@@ -1315,7 +1315,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 85346fe94dfd4d5439733818641e19d7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8507fc8987052de45a27516b5892943c, type: 3}
   m_Color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.5019608}
   m_FlipX: 0
   m_FlipY: 0
@@ -1601,7 +1601,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 869dba20f5e76b1499b7a32048486fde, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d6b11345b0ace474283927a2eaa2b94d, type: 3}
   m_Color: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 0.54509807}
   m_FlipX: 0
   m_FlipY: 0
@@ -1853,6 +1853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raccoons: {fileID: 0}
+  audio: {fileID: 0}
 --- !u!114 &1364599618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2589,7 +2590,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 85346fe94dfd4d5439733818641e19d7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4c0b44c417da66d4099f2f7ff59b0c6a, type: 3}
   m_Color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.5019608}
   m_FlipX: 0
   m_FlipY: 0
@@ -2860,7 +2861,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 85346fe94dfd4d5439733818641e19d7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6008fac0ca0ec544ab1a62ab05f410f0, type: 3}
   m_Color: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 0.5019608}
   m_FlipX: 0
   m_FlipY: 0
