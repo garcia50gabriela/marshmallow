@@ -5,6 +5,8 @@ using UnityEngine;
 public class marshmallow_stick : MonoBehaviour
 {
     public float speed = 10f;
+    public float adjX;
+    public float adjY;
     public Vector3 targetPos;
     public Vector3 ogPos;
     public Vector3 clickPos;
@@ -76,7 +78,9 @@ public class marshmallow_stick : MonoBehaviour
         
     void SetTargetPosition()
     {
-        adjPos = new Vector3(600,50,0);
+        adjX = Screen.width/2;
+        adjX = Screen.height/2;
+        adjPos = new Vector3(adjX,adjY,0);
         // ^
         // This position adjustment is based on a 1200x600 resolution. 
         // If we want to support multiple resolutions this would need actual math based on screen size.
