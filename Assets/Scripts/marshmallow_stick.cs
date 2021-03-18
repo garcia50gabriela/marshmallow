@@ -79,7 +79,7 @@ public class marshmallow_stick : MonoBehaviour
     void SetTargetPosition()
     {
         adjX = Screen.width/2;
-        adjX = Screen.height/2;
+        adjY = Screen.height/10;
         adjPos = new Vector3(adjX,adjY,0);
         // ^
         // This position adjustment is based on a 1200x600 resolution. 
